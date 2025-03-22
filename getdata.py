@@ -5,6 +5,7 @@ plt.rcParams['font.sans-serif'] = ['SimHei']
 import tushare as ts
 import os
 import tushare as ts
+
 ts.set_token('7cafaabce3f2ff1d3a034677df002dc4fbd51d6ea908608edc8cf5ed')
 pro = ts.pro_api()
 def get_data(code,start,end):

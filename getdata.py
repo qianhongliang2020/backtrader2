@@ -74,8 +74,8 @@ def acquire_code():
 
         df.to_csv(path)
         num += 1
-        return df
-    print('download stocks ',num)
+        print('download stocks ', num)
+
 
 
 # # 拉取数据

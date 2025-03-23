@@ -26,7 +26,7 @@ class DualMovingAverageStrategy(bt.Strategy):
             self.order = self.sell()  # 卖出
 
 def test(code):
-    cerebro = bt.Cerebro()
+
     # 加载数据（需要替换为实际数据路径）
     data = bt.feeds.GenericCSVData(
         dataname=code ,
@@ -40,8 +40,9 @@ def test(code):
         openinterest=-1
     )
 
+    cerebro = bt.Cerebro()
     #data=bt.feeds.PandasData(dataname=code,fromdate='2017-01-01',todate='2025-03-01')
-    cerebro.adddata(data)
+    cerebro.adddata(data,name=code)
     cerebro.addstrategy(DualMovingAverageStrategy)
     cerebro.broker.setcash(100000.0)
     cerebro.addsizer(bt.sizers.PercentSizer, percents=90)  # 90%仓位
@@ -51,6 +52,7 @@ def test(code):
     cerebro.addanalyzer(btanalyzers.SharpeRatio, _name='sharpe')
     cerebro.addanalyzer(btanalyzers.DrawDown, _name='drawdown')
 
+    print('启动资金: %.2f' % cerebro.broker.getvalue())
     # 运行回测
     results = cerebro.run()
 
@@ -65,14 +67,20 @@ def test(code):
     #cerebro.plot(style='candlestick')
 
 def pasrse_files(filepath):
+    # download 历史交易数据 并把交易数据放到文件夹store中
+    getdata.acquire_code()
+
+    # 把store路径下的文件进行遍历回测，并把回测结果保存起
     for filepath, dirnames, filenames in os.walk(filepath):
         for filename in filenames:
+            # mac 隐藏文件，不操作
             if ".DS_Store"  in filename:
                 continue
-            df = getdata.acquire_code()
+
             filePath = os.path.join(filepath, filename)
-            print(filePath)
+            print('开始回测股票', filename)
             test(filePath)
+            print('结束回测股票', filename)
 
 
 if __name__ == '__main__':

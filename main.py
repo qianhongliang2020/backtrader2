@@ -67,6 +67,8 @@ def test(code):
 def pasrse_files(filepath):
     for filepath, dirnames, filenames in os.walk(filepath):
         for filename in filenames:
+            if ".DS_Store"  in filename:
+                continue
             df = getdata.acquire_code()
             filePath = os.path.join(filepath, filename)
             print(filePath)
@@ -78,7 +80,7 @@ if __name__ == '__main__':
     # inp_code =  '430090.BJ'#'600893.SH'
     # inp_start = '2017-01-01'
     # inp_end = '2025-03-01'
-    # df = getdata.get_data(inp_code,inp_start,inp_end)
+    # df = getdata.downloadHistoryData(inp_code,inp_start,inp_end)
     # print(df.head)
     # #test('600893.SH.csv')
     # test(df)

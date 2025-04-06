@@ -3,7 +3,7 @@ import backtrader.analyzers as btanalyzers
 import os
 import pandas as pd
 import getdata
-
+import datetime
 class DualMovingAverageStrategy(bt.Strategy):
     params = (
         ('short_period', 5),  # 短期均线周期
@@ -70,6 +70,8 @@ def pasrse_files(filepath):
     # download 历史交易数据 并把交易数据放到文件夹store中
     getdata.acquire_code()
 
+    now_time = datetime.datetime.now()
+
     # 把store路径下的文件进行遍历回测，并把回测结果保存起
     for filepath, dirnames, filenames in os.walk(filepath):
         for filename in filenames:
@@ -81,8 +83,8 @@ def pasrse_files(filepath):
             print('开始回测股票', filename)
             test(filePath)
             print('结束回测股票', filename)
-
-
+    end_time = datetime.datetime.now()
+    print("cost time:", (end_time-now_time))
 if __name__ == '__main__':
     pasrse_files(r'./stock')
     # inp_code =  '430090.BJ'#'600893.SH'

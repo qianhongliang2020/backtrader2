@@ -70,7 +70,7 @@ def acquire_code():
         df.sort_index(inplace=True)
 
         # os.path地址拼接，''数据地址''为文件保存路径
-        path = os.path.join(os.path.join(os.getcwd(),"./stock"), inp_code + ".csv")
+        path = os.path.join(os.path.join(os.getcwd(),"./stock"), inp_code.replace('.','_') + ".csv")
 
         df.to_csv(path)
         num += 1
